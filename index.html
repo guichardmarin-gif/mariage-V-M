@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marin & Victoria — 01 Octobre 2026</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500&family=Ms+Madi&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --bg-color: #F9F8F5; --text-dark: #2C2F29; --accent: #5C6652; --gold: #C2B49A; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Jost', sans-serif; background-color: var(--bg-color); color: var(--text-dark); font-weight: 300; line-height: 1.8; overflow-x: hidden; }
+        h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.2s; }
+
+        nav { position: fixed; top: 0; width: 100%; padding: 25px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; transition: background 0.4s ease; }
+        nav.scrolled { background: rgba(249, 248, 245, 0.95); backdrop-filter: blur(10px); padding: 15px 50px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+        .nav-logo { font-size: 1.5rem; letter-spacing: 2px; text-decoration: none; color: var(--text-dark); }
+        .nav-links a { text-decoration: none; color: var(--text-dark); margin-left: 30px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s; font-weight: 500;}
+        .nav-links a:hover { color: var(--gold); }
+
+        .hero { height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; background: url('couple.jpg') center/cover no-repeat fixed; position: relative; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)); }
+        .hero-content { position: relative; z-index: 1; text-align: center; color: white; }
+        .hero-date { font-size: 0.9rem; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 20px; color: var(--gold); }
+        .hero h1 { font-size: 6rem; line-height: 1; margin-bottom: 10px; font-style: italic; }
+        .hero-subtitle { font-size: 1.2rem; letter-spacing: 4px; font-weight: 300; }
+
+        .section-padding { padding: 120px 5%; max-width: 1400px; margin: 0 auto; }
+        .title-wrapper { text-align: center; margin-bottom: 80px; }
+        .title-wrapper span { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 5px; color: var(--gold); margin-bottom: 15px; }
+        .title-wrapper h2 { font-size: 3.5rem; font-style: italic; }
+
+        .editorial-block { display: flex; align-items: center; gap: 80px; margin-bottom: 120px; }
+        .editorial-block:nth-child(even) { flex-direction: row-reverse; }
+        .editorial-img-container { flex: 1; position: relative; }
+        .editorial-img-container img { width: 100%; height: 75vh; object-fit: cover; filter: brightness(0.95); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .editorial-text { flex: 1; padding: 40px; }
+        .editorial-time { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--gold); display: block; margin-bottom: 10px; font-style: italic; }
+        .editorial-text h3 { font-size: 2rem; margin-bottom: 20px; }
+        .editorial-text p { font-size: 1rem; color: #555; margin-bottom: 15px; }
+        
+        .map-link { display: inline-block; margin-top: 15px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold); transition: 0.3s; font-weight: 500;}
+        .map-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+        .note { border-left: 1px solid var(--gold); padding-left: 20px; font-style: italic; font-size: 0.9rem; margin-top: 30px; color: var(--accent); background: #fdfdfd; padding: 15px; border-radius: 0 4px 4px 0;}
+
+        /* AJOUT STYLE Inspirations */
+        .dress-code-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 250px; gap: 15px; margin: 50px auto; }
+        .grid-item { overflow: hidden; border-radius: 2px; }
+        .grid-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .grid-item:hover img { transform: scale(1.05); }
+        .tall { grid-row: span 2; }
+        .wide { grid-column: span 2; }
+
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 60px; }
+        .info-card { padding-right: 20px; }
+        .info-card h4 { font-family: 'Jost', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 20px; }
+        .info-list { list-style: none; }
+        .info-list li { margin-bottom: 15px; font-size: 0.95rem; }
+        .info-list a { color: var(--text-dark); text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.2); transition: 0.3s; padding-bottom: 2px; }
+        .info-list a:hover { border-bottom-color: var(--text-dark); }
+
+        .registry-wrapper { background-color: white; padding: 100px 5%; margin: 0 auto; max-width: 1000px; box-shadow: 0 20px 40px rgba(0,0,0,0.02); text-align: center; }
+        .registry-intro { max-width: 700px; margin: 0 auto 50px; font-size: 1.15rem; color: #555; }
+        .btn-outline { display: inline-block; padding: 15px 40px; border: 1px solid var(--text-dark); color: var(--text-dark); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; background: transparent; cursor: pointer; font-weight: 500;}
+        .btn-outline:hover { background: var(--text-dark); color: white; }
+
+        .rsvp-bg { background-color: #EAECE8; padding: 120px 5%; text-align: center; position: relative; }
+        .rsvp-card { background: white; padding: 60px; max-width: 700px; margin: 0 auto; text-align: left; box-shadow: 0 30px 60px rgba(0,0,0,0.08); border-radius: 4px; }
+        .rsvp-card label { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; margin-bottom: 10px; font-style: italic; color: var(--accent); }
+        .rsvp-card input, .rsvp-card select { width: 100%; padding: 15px; border: 1px solid #EBEBEB; border-radius: 2px; font-family: 'Jost', sans-serif; font-size: 1rem; margin-bottom: 30px; background: #FAFAFA; outline: none; transition: 0.3s; }
+        .rsvp-card input:focus, .rsvp-card select:focus { border-color: var(--gold); background: white; }
+        .input-row { display: flex; gap: 20px; }
+        .input-row input { flex: 1; }
+        .btn-submit-classic { width: 100%; background: var(--accent); color: white; border: none; padding: 20px; font-family: 'Jost'; text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; cursor: pointer; transition: 0.3s; margin-top: 10px; border-radius: 2px;}
+        .btn-submit-classic:hover { background: var(--text-dark); }
+
+        @media (max-width: 900px) {
+            .editorial-block, .editorial-block:nth-child(even) { flex-direction: column; gap: 30px; margin-bottom: 80px; }
+            .editorial-img-container img { height: 50vh; }
+            .editorial-text { padding: 20px 0; }
+            .hero h1 { font-size: 3.5rem; }
+            .info-grid { grid-template-columns: 1fr; gap: 40px; }
+            .dress-code-grid { grid-template-columns: repeat(2, 1fr); }
+            nav { padding: 20px; flex-direction: column; gap: 15px; background: rgba(249, 248, 245, 0.95); }
+            .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .nav-links a { margin: 0; }
+            .rsvp-card { padding: 30px; }
+            .input-row { flex-direction: column; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="#" class="nav-logo serif">M & V</a>
+        <div class="nav-links">
+            <a href="#programme">Programme</a>
+            <a href="#dress-code">Inspirations</a>
+            <a href="#infos">Infos</a>
+            <a href="#liste">Liste</a>
+            <a href="#rsvp">RSVP</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content reveal">
+            <div class="hero-date">01 Octobre 2026</div>
+            <h1>Marin & Victoria</h1>
+            <div class="hero-subtitle">Le Mas de la Rose, Provence</div>
+            <div style="margin-top: 25px;">
+                <a href="#rsvp" style="display: inline-block; padding: 12px 35px; background-color: #fff; color: #000; text-decoration: none; font-family: inherit; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid #fff;">Confirmer ma présence</a>
+            </div>
+        </div>
+    </div>
+
+    <section id="programme" class="section-padding">
+        <div class="title-wrapper reveal">
+            <span>Déroulé du week-end</span>
+            <h2>Le Programme</h2>
+        </div>
+
+        <div class="editorial-block">
+            <div class="editorial-img-container reveal">
+                <img src="eglise.jpg" alt="Église d'Orgon">
+            </div>
+            <div class="editorial-text reveal delay-1">
+                <span class="editorial-time">14h30</span>
+                <h3 class="serif">Cérémonie Religieuse</h3>
+                <p>Nous vous donnons rendez-vous en l'Église Notre-Dame-de-l'Assomption, à Orgon.</p>
+                <p>Notre mariage sera célébré par le Père Chatelain.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Eglise+Notre-Dame-de-l-Assomption+Orgon" target="_blank" class="map-link">Voir sur Google Maps</a>
+                <div class="note">
+                    Nous prions nos invités de bien vouloir prendre place 20 minutes avant le début de la cérémonie.
+                </div>
+            </div>
+        </div>
+
+        <div class="editorial-block">
+            <div class="editorial-img-container reveal">
+                <img src="mas.jpg" alt="Mas de la Rose">
+            </div>
+            <div class="editorial-text reveal delay-1">
+                <span class="editorial-time">17h00</span>
+                <h3 class="serif">Réception au Mas de la Rose</h3>
+                <p>Les festivités débuteront par un cocktail de bienvenue dans les jardins du Mas (Route d'Eygalières).</p>
+                <p>Il sera suivi d'un dîner gastronomique assis et de notre soirée dansante.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Le+Mas+de+la+Rose+Orgon" target="_blank" class="map-link">Voir sur Google Maps</a>
+            </div>
+        </div>
+
+        <div class="editorial-block" style="flex-direction: column; text-align: center;">
+            <div class="reveal" style="max-width: 400px; margin: 0 auto 30px;">
+                <svg viewBox="0 0 200 80" fill="none" stroke="#C2B49A" stroke-width="0.5">
+                    <path d="M10,60 Q50,55 90,60 T170,60" stroke-width="1"/>
+                    <path d="M40,60 L45,30 Q47,25 50,30 L55,60" />
+                    <path d="M80,60 C80,45 120,45 120,60" />
+                    <path d="M140,60 L145,40 Q147,35 150,40 L155,60" />
+                    <path d="M20,60 Q25,20 60,20 Q95,20 100,60" opacity="0.3"/>
+                </svg>
+            </div>
+            <div class="editorial-text reveal">
+                <span class="editorial-time" style="font-size: 2rem;">Le Lendemain — 10h30</span>
+                <h3 class="serif">Le Brunch</h3>
+                <p>Pour clore la célébration en douceur, nous vous retrouverons au Mas de la Rose autour d'un somptueux brunch.</p>
+            </div>
+<svg viewBox="0 0 300 120" fill="none" stroke="#C2B49A" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" style="max-width: 600px; display: block; margin: 40px auto;"><path d="M20,100 L20,30 C20,10 50,5 150,5 C250,5 280,10 280,30 L280,100" opacity="0.3" /><path d="M40,25 Q45,15 55,20 Q60,25 55,30 Z" fill="#C2B49A" fill-opacity="0.1" opacity="0.4"/><path d="M240,25 Q245,15 255,20 Q260,25 255,30 Z" fill="#C2B49A" fill-opacity="0.1" opacity="0.4"/><path d="M10,100 L290,100" stroke-width="1.5"/><path d="M30,100 L35,115 M270,100 L265,115" stroke-width="1.2" opacity="0.7"/><path d="M50,100 L50,110 M70,100 L70,110 M90,100 L90,110 M210,100 L210,110 M230,100 L230,110 M250,100 L250,110" opacity="0.2"/><path d="M120,100 L124,70 L176,70 L180,100 Z" fill="#C2B49A" fill-opacity="0.03"/><path d="M124,73 L176,73" stroke-width="1.2"/><path d="M130,100 L132,75 M140,100 L141,75 M150,100 L150,75 M160,100 L159,75 M170,100 L168,75" opacity="0.3"/><path d="M140,70 L138,45 Q138,40 148,42 L155,70" fill="#C2B49A" fill-opacity="0.08"/><path d="M143,45 L143,50" stroke-width="1"/><path d="M138,48 Q148,51 153,48" /><circle cx="124" cy="80" r="3" fill="#C2B49A" fill-opacity="0.1"/><circle cx="176" cy="80" r="3" fill="#C2B49A" fill-opacity="0.1"/><ellipse cx="70" cy="97" rx="25" ry="5" fill="#C2B49A" fill-opacity="0.03"/><path d="M48,97 C48,75 92,75 92,97" /><path d="M55,95 Q70,75 85,95" /><path d="M60,92 Q70,78 80,92" opacity="0.7"/><path d="M52,90 Q50,85 55,87 Q60,89 58,84 Q63,86 61,81" opacity="0.5"/><path d="M100,100 L100,85 M93,65 L107,65 L100,85 L93,65" /><path d="M100,68 L100,75" opacity="0.3"/><path d="M200,100 L200,85 M193,65 L207,65 L200,85 L193,65" /><path d="M200,68 L200,75" opacity="0.3"/><rect x="230" y="85" width="30" height="15" rx="2" fill="#C2B49A" fill-opacity="0.05"/><path d="M235,85 L235,100 M245,85 L245,100 M255,85 L255,100" opacity="0.2"/><ellipse cx="245" cy="83" rx="10" ry="2" /></svg>
+        </div>
+    </section>
+
+    <section id="dress-code" class="section-padding" style="background-color: white;">
+        <div class="title-wrapper reveal">
+            <span>Look du jour</span>
+            <h2>Inspirations vestimentaires</h2>
+            <p style="max-width: 650px; margin: 20px auto 0; font-size: 1rem; color: #666; font-style: italic;">
+                Bien que nous n'imposions aucune règle stricte car nous souhaitons surtout que vous veniez comme vous êtes, voici quelques inspirations pour vous guider.
+            </p>
+        </div>
+        <div class="dress-code-grid reveal">
+            <div class="grid-item tall"><img src="dress1.jpg"></div>
+            <div class="grid-item"><img src="dress2.jpg"></div>
+            <div class="grid-item wide"><img src="dress3.jpg"></div>
+            <div class="grid-item"><img src="dress4.jpg"></div>
+            <div class="grid-item tall"><img src="dress5.jpg"></div>
+            <div class="grid-item"><img src="dress6.jpg"></div>
+            <div class="grid-item"><img src="dress7.jpg"></div>
+            <div class="grid-item"><img src="dress8.jpg"></div>
+        </div>
+    </section>
+
+    <section id="infos" class="section-padding" style="background-color: var(--bg-color);">
+        <div class="title-wrapper reveal">
+            <span>Organisation</span>
+            <h2>Informations Pratiques</h2>
+        </div>
+
+        <div class="info-grid reveal">
+            <div class="info-card">
+                <h4>Transports</h4>
+                <ul class="info-list">
+                    <li><strong>Train :</strong> Gare TGV d'Avignon (à 30 min).</li>
+                    <li><strong>Voiture :</strong> Agences en gare ou via <a href="https://turo.com/fr/fr" target="_blank">Turo</a> et <a href="https://fr.getaround.com/" target="_blank">Getaround</a>.</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h4>VTC & Taxis</h4>
+                <ul class="info-list">
+                    <li><a href="https://www.provenceluxuryvtc.com/" target="_blank">Provence Luxury</a> : 06 09 06 66 96</li>
+                    <li><a href="https://www.marievtc.fr/" target="_blank">Marie VTC</a> : 06 69 92 30 89</li>
+                    <li>Taxi Daniel : 06 09 44 09 29</li>
+                    <li><a href="https://www.provence-panorama.com/fr/" target="_blank">Provence Panorama</a> : 04 90 22 02 61</li>
+                    <li><a href="https://luberonservice.fr/" target="_blank">Luberon Service</a> : 07 88 95 52 56</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h4>Hébergements (5 min)</h4>
+                <p style="font-size: 0.85rem; font-style: italic; margin-bottom: 15px; color: #888;">Le Mas de la Rose étant privatisé pour nos familles et témoins, voici nos recommandations :</p>
+                <ul class="info-list">
+                    <li><a href="http://www.location-chambres-hotes-eygalieres.fr" target="_blank">Mas Notre Dame</a> (Eygalières)</li>
+                    <li><a href="http://www.maisonhache.com" target="_blank">Maison Hache</a> (Eygalières)</li>
+                    <li><a href="http://www.aubergeduparc.net" target="_blank">Auberge Du Parc</a> (Orgon)</li>
+                    <li><a href="http://www.masdhermes.fr" target="_blank">Le Mas d’Hermès</a> (Plan-d'Orgon)</li>
+                    <li><a href="mailto:info@ledomainedelatourelle.com">Le Domaine de la Tourelle</a> (Orgon)</li>
+                    <li><a href="http://www.masdauseu.com" target="_blank">Mas d'Auseu</a> (Plan-d'Orgon)</li>
+                </ul>
+                
+                <h4 style="margin-top: 30px;">Hébergements (10-15 min)</h4>
+                <ul class="info-list">
+                    <li><a href="http://www.ibis.com/Cavaillon" target="_blank">Ibis Cavaillon Luberon</a></li>
+                    <li><a href="http://www.chateaudesalpilles.com" target="_blank">Le Château des Alpilles</a> (St Rémy)</li>
+                    <li><a href="http://www.hotelphoto.com" target="_blank">Les Ateliers de l’Image</a> (St Rémy)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="liste" class="section-padding">
+        <div class="registry-wrapper reveal">
+            <div class="title-wrapper">
+                <span>Cadeaux</span>
+                <h2>Liste de Mariage</h2>
+            </div>
+            <p class="registry-intro serif">
+                Votre présence à nos côtés est le plus beau des cadeaux. Toutefois, si vous souhaitez participer à l'aménagement et la décoration de notre futur foyer, vous pouvez retrouver notre sélection et contribuer librement via la plateforme Mille Mercis.
+            </p>
+           <div style="margin: 50px 0;">
+                <a href="https://www.millemercismariage.com/vmguichard/liste.html" target="_blank" class="btn-outline">Accéder à notre liste Mille Mercis</a>
+            </div>
+        </div>
+    </section>
+
+   <section id="rsvp" class="rsvp-bg">
+    <div class="title-wrapper reveal">
+        <span>Nous répondre</span>
+        <h2>Confirmez votre présence</h2>
+    </div>
+
+    <div data-fs-success style="display:none; max-width: 700px; margin: 20px auto; padding: 40px; background: white; border: 1px solid var(--gold); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem; text-align: center;">
+        Merci ! Votre réponse a bien été enregistrée.
+    </div>
+
+    <div class="rsvp-card reveal delay-1">
+        <form id="rsvp-form">
+            <label>Vos coordonnées</label>
+            <div class="input-row">
+                <input type="text" name="Nom" required placeholder="Votre Nom" data-fs-field>
+                <input type="text" name="Prenom" required placeholder="Votre Prénom" data-fs-field>
+            </div>
+            <input type="email" name="Email" required placeholder="Votre adresse email" data-fs-field>
+
+            <label style="margin-top: 10px;">Votre présence</label>
+            <select name="Presence_Mariage" required data-fs-field>
+                <option value="" disabled selected>Serez-vous présent(e) au Mariage ?</option>
+                <option value="Oui">OUI, avec joie</option>
+                <option value="Non">NON, malheureusement</option>
+            </select>
+
+            <select name="Presence_Brunch" required data-fs-field>
+                <option value="" disabled selected>Serez-vous présent(e) au Brunch ?</option>
+                <option value="Oui">OUI, je serai là</option>
+                <option value="Non">NON, je ne pourrai pas venir</option>
+            </select>
+
+            <label style="margin-top: 10px;">Accompagnant(e)</label>
+            <select name="Accompagne" required data-fs-field>
+                <option value="" disabled selected>Venez-vous avec un(e) accompagnant(e) ?</option>
+                <option value="Non">Non, je viens seul(e)</option>
+                <option value="Oui">Oui (précisez le nom ci-dessous)</option>
+            </select>
+            <input type="text" name="Nom_Accompagnant" placeholder="Nom du +1" data-fs-field>
+
+            <label style="margin-top: 10px;">Informations complémentaires</label>
+            <input type="text" name="Allergies_Remarques" placeholder="Allergies, régime spécial, petit mot..." data-fs-field>
+
+            <button type="submit" data-fs-submit-btn class="btn-submit-classic">Confirmer</button>
+        </form>
+    </div>
+</section>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
+            else { nav.classList.remove('scrolled'); }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) { entry.target.classList.add('visible'); }
+            });
+        }, { threshold: 0.15 });
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+<script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { 
+        formElement: '#rsvp-form', 
+        formId: 'mwvwrbag' 
+    });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
