@@ -408,7 +408,11 @@ window.onload = function() {
         document.getElementById('protection-overlay').style.display = 'none';
         
         // --- AJOUTE CETTE LIGNE ICI ---
-        window.scrollTo(0, 0); 
+        window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'instant'
+});
         // ------------------------------
 
         // On autorise le défilement de la page
