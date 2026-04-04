@@ -95,9 +95,49 @@
             .rsvp-card { padding: 30px; }
             .input-row { flex-direction: column; gap: 0; }
         }
+        /* Style du verrouillage */
+#protection-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #F9F8F5; /* Même couleur que ton site */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.lock-card {
+    background: white;
+    padding: 60px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    border-radius: 4px;
+    max-width: 400px;
+}
+.lock-card h2 { font-style: italic; margin-bottom: 20px; font-size: 2rem; }
+.lock-card input { 
+    width: 100%; padding: 15px; text-align: center; 
+    border: 1px solid #EBEBEB; font-family: 'Jost', sans-serif;
+    letter-spacing: 4px; font-size: 1.2rem; margin-bottom: 20px;
+}
+.lock-card button {
+    background: var(--accent); color: white; border: none;
+    padding: 15px 30px; text-transform: uppercase; letter-spacing: 2px;
+    cursor: pointer; width: 100%; transition: 0.3s;
+}
+.lock-card button:hover { background: var(--text-dark); }
     </style>
 </head>
 <body>
+    <div id="protection-overlay">
+    <div class="lock-card">
+        <span style="color:var(--gold); letter-spacing:3px; text-transform:uppercase; font-size:0.7rem;">Bienvenue</span>
+        <h2 class="serif">Victoria & Marin</h2>
+        <p style="margin-bottom:20px; font-size:0.9rem;">Veuillez saisir le code d'accès présent sur votre invitation.</p>
+        <input type="text" id="access-code" placeholder="----" maxlength="10">
+        <button onclick="checkCode()">Entrer</button>
+        <p id="error-msg" style="color: #c0392b; font-size: 0.8rem; margin-top: 15px; display: none;">Code incorrect, merci de vérifier votre carton.</p>
+    </div>
+</div>
 
     <nav id="navbar">
         <a href="#" class="nav-logo serif">V & M</a>
@@ -329,5 +369,31 @@
     });
 </script>
 <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+    <script>
+function checkCode() {
+    const codeSaisi = document.getElementById('access-code').value.toUpperCase();
+    const codeCorrect = "PROVENCE2026"; // CHANGE TON CODE ICI
+
+    if (codeSaisi === codeCorrect) {
+        // On cache le rideau
+        document.getElementById('protection-overlay').style.display = 'none';
+        // On autorise le défilement de la page
+        document.body.style.overflow = 'auto';
+        // Petit bonus : on enregistre que l'invité a déjà tapé le code pour cette session
+        sessionStorage.setItem('siteAccess', 'true');
+    } else {
+        document.getElementById('error-msg').style.display = 'block';
+    }
+}
+
+// Vérification automatique au chargement
+window.onload = function() {
+    if (sessionStorage.getItem('siteAccess') === 'true') {
+        document.getElementById('protection-overlay').style.display = 'none';
+    } else {
+        document.body.style.overflow = 'hidden';
+    }
+};
+</script>
 </body>
 </html>
