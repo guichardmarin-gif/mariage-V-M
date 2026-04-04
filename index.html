@@ -376,20 +376,26 @@
     <script>
 function checkCode() {
     const codeSaisi = document.getElementById('access-code').value.toUpperCase();
-    const codeCorrect = "PROVENCE2026"; // CHANGE TON CODE ICI
+    const codeCorrect = "PROVENCE2026"; 
 
     if (codeSaisi === codeCorrect) {
-        // On cache le rideau
         document.getElementById('protection-overlay').style.display = 'none';
-        // On autorise le défilement de la page
         document.body.style.overflow = 'auto';
-        // Petit bonus : on enregistre que l'invité a déjà tapé le code pour cette session
+
+        // On attend un tout petit peu que le rideau disparaisse
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'instant'
+            });
+        }, 50);
+
         sessionStorage.setItem('siteAccess', 'true');
     } else {
         document.getElementById('error-msg').style.display = 'block';
     }
 }
-
 // Vérification automatique au chargement
 window.onload = function() {
     if (sessionStorage.getItem('siteAccess') === 'true') {
