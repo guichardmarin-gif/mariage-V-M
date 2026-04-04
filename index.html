@@ -154,7 +154,7 @@
         </div>
     </nav>
 
-    <div class="hero">
+   <div class="hero" id="accueil">
         <div class="hero-content reveal">
             <div class="hero-date">01 Octobre 2026</div>
             <h1>Victoria & Marin</h1>
@@ -379,17 +379,19 @@ function checkCode() {
     const codeCorrect = "PROVENCE2026"; 
 
     if (codeSaisi === codeCorrect) {
+        // 1. On cache le rideau
         document.getElementById('protection-overlay').style.display = 'none';
+        
+        // 2. On réactive le scroll
         document.body.style.overflow = 'auto';
 
-        // On attend un tout petit peu que le rideau disparaisse
+        // 3. On attend que le clavier du téléphone se soit bien rangé
         setTimeout(() => {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'instant'
-            });
-        }, 50);
+            const accueil = document.getElementById('accueil');
+            accueil.scrollIntoView({ behavior: 'instant', block: 'start' });
+            // Sécurité supplémentaire : on force le pixel 0
+            window.scrollTo(0, 0);
+        }, 300);
 
         sessionStorage.setItem('siteAccess', 'true');
     } else {
