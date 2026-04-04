@@ -98,20 +98,24 @@
         /* Style du verrouillage */
 #protection-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #F9F8F5; /* Même couleur que ton site */
-    z-index: 9999;
+    inset: 0; /* Force la couverture sur les 4 coins */
+    width: 100%;
+    height: 100vh; /* Utilise toute la hauteur de l'écran */
+    background-color: #F9F8F5;
+    z-index: 99999; /* Passe au-dessus de tout, même de la nav */
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    padding: 20px;
 }
 .lock-card {
     background: white;
-    padding: 60px;
+    padding: 40px 30px; /* Un peu moins de padding pour gagner de la place */
     box-shadow: 0 20px 40px rgba(0,0,0,0.05);
     border-radius: 4px;
-    max-width: 400px;
+    width: 100%;
+    max-width: 350px; /* S'adapte mieux aux iPhones/Android */
+    text-align: center;
 }
 .lock-card h2 { font-style: italic; margin-bottom: 20px; font-size: 2rem; }
 .lock-card input { 
