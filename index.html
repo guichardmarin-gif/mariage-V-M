@@ -399,29 +399,5 @@ window.onload = function() {
     }
 };
 </script>
-    function checkCode() {
-    const codeSaisi = document.getElementById('access-code').value.toUpperCase();
-    const codeCorrect = "PROVENCE2026"; 
-
-    if (codeSaisi === codeCorrect) {
-        // On cache le rideau
-        document.getElementById('protection-overlay').style.display = 'none';
-        
-        // --- AJOUTE CETTE LIGNE ICI ---
-        window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'instant'
-});
-        // ------------------------------
-
-        // On autorise le défilement de la page
-        document.body.style.overflow = 'auto';
-        // On enregistre l'accès
-        sessionStorage.setItem('siteAccess', 'true');
-    } else {
-        document.getElementById('error-msg').style.display = 'block';
-    }
-}
 </body>
 </html>
