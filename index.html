@@ -349,33 +349,27 @@
         </form>
     </div>
 </section>
-<section style="padding: 80px 20px; text-align: center; background: #fdfdfb; border-top: 1px solid #f0efeb;">
-    <div id="countdown" class="serif" style="font-size: 2.2rem; color: #b08d57; margin-bottom: 10px;">
-        </div>
-    <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.75rem; color: #888; margin-bottom: 30px;">
-        Avant de nous dire "Oui" au Mas de la Rose
-    </p>
-    <div style="font-family: serif; font-style: italic; color: #999; font-size: 1rem;">
-        On a tellement hâte de vous retrouver !
-    </div>
-</section>
-
 <script>
 function updateCountdown() {
-    const weddingDate = new Date("October 1, 2026 15:00:00").getTime();
+    // Date précise : 1er Octobre 2026 à 14h30
+    const weddingDate = new Date("2026-10-01T14:30:00").getTime();
     const now = new Date().getTime();
     const gap = weddingDate - now;
 
     if (gap > 0) {
         const days = Math.floor(gap / (1000 * 60 * 60 * 24));
         const hours = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById("countdown").innerHTML = days + " jours & " + hours + "h";
+        const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+        
+        // Affichage : "180 jours, 0h & 10 min" (par exemple)
+        document.getElementById("countdown").innerHTML = days + " jours, " + hours + "h & " + minutes + " min";
     } else {
         document.getElementById("countdown").innerHTML = "C'est le grand jour !";
     }
 }
+
 updateCountdown();
-// Mise à jour toutes les minutes pour être précis
+// Mise à jour chaque minute pour voir les minutes défiler
 setInterval(updateCountdown, 60000);
 </script>
     <script>
